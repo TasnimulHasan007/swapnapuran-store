@@ -1,6 +1,5 @@
 const loadProducts = () => {
-  // const url = `https://fakestoreapi.com/products`
-  const url = `../data.json`
+  const url = `https://raw.githubusercontent.com/ProgrammingHero1/ranga-store-api/main/ranga-api.json?fbclid=IwAR0fLdtCA8re4lXTCnVYR0ppmbcj0q3I4oQ4k-yylzMm8AplnhnSDMFbgoc`
   fetch(url)
     .then((response) => response.json())
     .then((data) => showProducts(data))
@@ -69,20 +68,21 @@ const addToCart = (id, price) => {
 const getInputValue = (id) => {
   const element = document.getElementById(id).innerText
   const converted = parseFloat(element)
+  console.log(converted)
   return converted
 }
 
 // main price update function
 const updatePrice = (id, value) => {
   const convertedOldPrice = getInputValue(id)
-  const convertPrice = parseFloat(value).toFixed(2)
-  const total = convertedOldPrice + parseFloat(convertPrice)
-  document.getElementById(id).innerText = total
+  const convertPrice = parseFloat(value)
+  const total = convertedOldPrice + convertPrice
+  document.getElementById(id).innerText = parseFloat(total).toFixed(2)
 }
 
 // set innerText function
 const setInnerText = (id, value) => {
-  document.getElementById(id).innerText = Math.round(value)
+  document.getElementById(id).innerText = parseFloat(value).toFixed(2)
 }
 
 // update delivery charge and total Tax
@@ -108,5 +108,5 @@ const updateTotal = () => {
     getInputValue("price") +
     getInputValue("delivery-charge") +
     getInputValue("total-tax")
-  document.getElementById("total").innerText = grandTotal
+  document.getElementById("total").innerText = parseFloat(grandTotal).toFixed(2)
 }
