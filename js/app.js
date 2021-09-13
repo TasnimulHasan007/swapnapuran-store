@@ -1,3 +1,4 @@
+// loading API
 const loadProducts = () => {
   const url = `https://raw.githubusercontent.com/ProgrammingHero1/ranga-store-api/main/ranga-api.json?fbclid=IwAR0fLdtCA8re4lXTCnVYR0ppmbcj0q3I4oQ4k-yylzMm8AplnhnSDMFbgoc`
   fetch(url)
@@ -6,7 +7,7 @@ const loadProducts = () => {
 }
 loadProducts()
 
-// show all product in UI
+// showing all product in UI
 const showProducts = (products) => {
   const allProducts = products.map((pd) => pd)
   for (const product of allProducts) {
@@ -15,46 +16,27 @@ const showProducts = (products) => {
     div.classList.add("product")
     div.innerHTML = `
       <div class="single-product">
+
         <div>
           <img class="product-image" src=${image}></img>
-        </div>
-        <h3>${product.title}</h3>
-        <p>Category: ${product.category}</p>
-        <p>Total Ratings: ${product.rating.count}</p>
-        <p>Average Rating: ${product.rating.rate}</p>
-        <h2>Price: $ ${product.price}</h2>
-        <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-outline-success">add to cart</button>
-
-        <div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Details for: ${product.title}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-
-              <div class="modal-body">
-                <p>Category: ${product.category}</p>
-                <p>Total Ratings: ${product.rating.count}</p>
-                <p>Average Rating: ${product.rating.rate}</p>
-                <p>${product.description}</p>
-                <h2>Price: $ ${product.price}</h2>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
+          <h3>${product.title}</h3>
+          <p>Category: ${product.category}</p>
+          <p>Total Ratings: ${product.rating.count}</p>
+          <p>Average Rating: ${product.rating.rate}</p>
         </div>
 
-        <button id="details-btn" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#details-modal">Details</button>
+        <div class="footer">
+          <h2>Price: $ ${product.price}</h2>
+          <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn add-to-cart">Add to cart</button>
+          <button id="details-btn" class="btn details-btn">Details</button>
+        </div>
         
       </div>
       `
     document.getElementById("all-products").appendChild(div)
   }
 }
+// adding to cart
 let count = 0
 const addToCart = (id, price) => {
   count = count + 1
@@ -88,6 +70,9 @@ const setInnerText = (id, value) => {
 // update delivery charge and total Tax
 const updateTaxAndCharge = () => {
   const priceConverted = getInputValue("price")
+  if (priceConverted > 0) {
+    setInnerText("delivery-charge", 20)
+  }
   if (priceConverted > 200) {
     setInnerText("delivery-charge", 30)
     setInnerText("total-tax", priceConverted * 0.2)
