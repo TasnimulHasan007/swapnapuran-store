@@ -14,6 +14,7 @@ const showProducts = (products) => {
     const image = product.image
     const div = document.createElement("div")
     div.classList.add("product")
+    // HTML element
     div.innerHTML = `
       <div class="single-product">
 
@@ -21,8 +22,14 @@ const showProducts = (products) => {
           <img class="product-image" src=${image}></img>
           <h3>${product.title}</h3>
           <p>Category: ${product.category}</p>
-          <p>Total Ratings: ${product.rating.count}</p>
-          <p>Average Rating: ${product.rating.rate}</p>
+          <p>Total Ratings: <span class="total-rating">${product.rating.count}</span></p>
+          <p>
+            Rating: 
+              <span class="stars-outer">
+                <span id="product-${product.id}" class="stars-inner"></span>
+              </span>
+              <span class="number-rating">(${product.rating.rate})</span>
+          </p>
         </div>
 
         <div class="footer">
@@ -33,7 +40,14 @@ const showProducts = (products) => {
         
       </div>
       `
+    // appending html
     document.getElementById("all-products").appendChild(div)
+    // star rating
+    const starPercentage = (parseFloat(product.rating.rate) / 5) * 100
+    const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`
+    // setting inner stars width
+    document.getElementById(`product-${product.id}`).style.width =
+      starPercentageRounded
   }
 }
 // adding to cart
